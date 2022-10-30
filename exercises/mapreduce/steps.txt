@@ -1,0 +1,11 @@
+export HADOOP_CLASSPATH=$(hadoop classpath)
+find src/main/java -name "*.java" > sources.txt
+javac -classpath ${HADOOP_CLASSPATH} -d classes @sources.txt
+jar -cvf mapreduce-exercises.jar -C classes/ .
+hadoop jar mapreduce-exercises.jar com.packt.mapreduce.wordcount.Driver /wordcount_example /wce_out
+hadoop jar mapreduce-exercises.jar com.packt.mapreduce.wordcount.Driver /inputs/shakespeare /outputs/wordcount2
+
+
+hadoop fs -D dfs.blocksize=1048576 -put shakespeare.txt /inputs/shakespeare
+
+hdfs fsck /inputs/shakespeare

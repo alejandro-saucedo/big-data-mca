@@ -1,0 +1,58 @@
+ /mnt/c/Users/hsaucedo/Documents/personal/big-data/repos/docker-hadoop-spark
+ 
+
+# namenode
+
+# run.sh needs to be converted to unix format with dos2unix
+ podman build -t bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8 -f .\Dockerfile .
+ podman volume create hadoop_namenode
+ podman run --name namenode --network hadoop_spark -p 9870:9870 -p 9010:9000 -v /mnt/c/Users/hsaucedo/Documents/personal/big-data/repos/docker-hadoop-spark/exercises:/exercises --mount "type=volume,src=hadoop_namenode,target=/hadoop/dfs/name" -e CLUSTER_NAME=test -e CORE_CONF_fs_defaultFS="hdfs://namenode:9000" --env-file C:\Users\hsaucedo\Documents\personal\big-data\repos\docker-hadoop-spark\hadoop.env localhost/bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+ 
+ -v /mnt/c/Users/hsaucedo/Documents/personal/big-data/repos/docker-hadoop-spark/exercises:/exercises
+ 
+# datanode
+
+podman build -t bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8 -f .\Dockerfile .
+podman volume create hadoop_datanode
+podman run --name datanode1 --network hadoop_spark -p 9864:9864 --mount "type=volume,src=hadoop_datanode,target=/hadoop/dfs/data" -e  CORE_CONF_fs_defaultFS=hdfs://namenode:9000 -e SERVICE_PRECONDITION="namenode:9870" --env-file C:\Users\hsaucedo\Documents\personal\big-data\repos\docker-hadoop-spark\hadoop.env localhost/bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+
+
+# resource manager
+
+podman build -t bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8 -f .\Dockerfile .
+
+podman run --name resourcemanager --network hadoop_spark -e SERVICE_PRECONDITION="namenode:9000 namenode:9870 datanode:9864" --env-file C:\Users\hsaucedo\Documents\personal\big-data\repos\docker-hadoop-spark\hadoop.env localhost/bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+
+
+# node manager
+
+podman build -t bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8 -f .\Dockerfile .
+
+podman run --name nodemanager --network hadoop_spark -e SERVICE_PRECONDITION="namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088" --env-file C:\Users\hsaucedo\Documents\personal\big-data\repos\docker-hadoop-spark\hadoop.env localhost/bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+
+
+# history server
+podman build -t bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8 -f .\Dockerfile .
+podman volume create hadoop_historyserver
+podman run --name historyserver --network hadoop_spark --mount "type=volume,src=hadoop_historyserver,target=/hadoop/yarn/timeline" -e SERVICE_PRECONDITION="namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088" --env-file C:\Users\hsaucedo\Documents\personal\big-data\repos\docker-hadoop-spark\hadoop.env localhost/bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
+
+# spark master
+
+podman build -t bde2020/spark-master:3.0.0-hadoop3.2 -f .\Dockerfile .
+
+podman run --name spark-master --network hadoop_spark -v /mnt/c/Users/hsaucedo/Documents/personal/big-data/repos/docker-hadoop-spark/notebooks:/notebooks -p 8888:8888 -p 8080:8080 -p 7077:7077 -e INIT_DAEMON_STEP=setup_spark -e CORE_CONF_fs_defaultFS=hdfs://namenode:9000 localhost/bde2020/spark-master:3.0.0-hadoop3.2
+
+
+# spark worker
+
+podman build -t bde2020/spark-worker:3.0.0-hadoop3.2 -f .\Dockerfile .
+
+podman run --name spark-worker-1 --network hadoop_spark -v /mnt/c/Users/hsaucedo/Documents/personal/big-data/repos/docker-hadoop-spark/notebooks:/notebooks -p 8081:8081 -e SPARK_MASTER=spark://spark-master:7077 -e CORE_CONF_fs_defaultFS=hdfs://namenode:9000 localhost/bde2020/spark-worker:3.0.0-hadoop3.2
+
+
+/spark/bin/pyspark --master spark://spark-master:7077
+
+podman start namenode  datanode datanode1 datanode2 resourcemanager nodemanager historyserver spark-master spark-worker-1 spark-worker-2 
+
+podman stop namenode  datanode datanode1 datanode2 resourcemanager nodemanager historyserver spark-master spark-worker-1 spark-worker-2 
+

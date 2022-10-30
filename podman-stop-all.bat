@@ -1,0 +1,1 @@
+podman stop namenode datanode datanode1 resourcemanager nodemanager nodemanager1 historyserver spark-master spark-worker-1 spark-worker-2 
