@@ -1,1 +1,6 @@
-data/
+data/out/*
+**/classes
+**/store/*
+**/.ipynb_checkpoints
+**/*.log
+**/metastore_db
