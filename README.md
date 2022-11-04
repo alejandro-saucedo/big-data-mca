@@ -24,3 +24,17 @@
       ```
     
       2. Run each container using the run.sh script located under each container folder. The containers must be run in the order listed in the containers list from the Content section
+      
+## Running Jupyter Notebook
+
+Once all the containers are running, connect to any of the spark nodes. For example, connect to spark-master container:
+
+```
+docker exect -it spark-master bash
+```
+
+Once in the container, launch Jupyter Notebook by running this:
+
+```
+/spark/bin/pyspark --master spark://spark-master:7077
+```
