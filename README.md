@@ -60,3 +60,9 @@ Once in the container, launch Jupyter Notebook by running this:
 ```
 /spark/bin/pyspark --master spark://spark-master:7077
 ```
+
+## Containers' URLs
+
+   - Hadoop applications: http://localhost:8088/cluster
+
+   - Jupyter Notebook (see section Running Jupyter Notebook before): http://localhost:8888
