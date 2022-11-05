@@ -22,7 +22,6 @@ RUN apk add --update --no-cache gcc python3-dev python3 linux-headers musl-dev l
 # setup python3
 ENV PYSPARK_PYTHON=python3 
 ENV PYSPARK_DRIVER_PYTHON=jupyter 
-ENV PYSPARK_DRIVER_PYTHON_OPTS="notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''" 
-
+ENV PYSPARK_DRIVER_PYTHON_OPTS="notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.notebook_dir='/work/notebooks'"
 
 CMD ["/bin/bash", "/master.sh"]
