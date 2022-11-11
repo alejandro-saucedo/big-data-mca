@@ -12,18 +12,21 @@ public class MinMaxReducer extends Reducer<Text, PlayerDetail, Text,
             context) throws IOException, InterruptedException {
         playerReport.setPlayerName(key);
         playerReport.setMaxScore(new IntWritable(0));
-        playerReport.setMinScore(new IntWritable(0));
+        playerReport.setMinScore(new IntWritable(Integer.MAX_VALUE));
+	playerReport.setMaxScoreOpposition(new IntWritable(0));
+        playerReport.setMinScoreOpposition(new IntWritable(0));
         for (PlayerDetail playerDetail : values) {
             int score = playerDetail.getScore().get();
+	    int opp = playerDetail.getOpposition().get();
             if (score > playerReport.getMaxScore().get()) {
-                playerReport.setMaxScore(new IntWritable(score));
-                playerReport.setMaxScoreopposition(playerDetail.getOpposition());
+                playerReport.getMaxScore().set(score);
+                playerReport.getMaxScoreOpposition().set(opp);
             }
-            if (score < playerReport.getMaxScore().get()) {
-                playerReport.setMinScore(new IntWritable(score));
-                playerReport.setMinScoreopposition(playerDetail.getOpposition());
+            if (score < playerReport.getMinScore().get()) {
+                playerReport.getMinScore().set(score);
+                playerReport.getMinScoreOpposition().set(opp);
             }
-            context.write(key, playerReport);
         }
+	context.write(key, playerReport);
     }
 }

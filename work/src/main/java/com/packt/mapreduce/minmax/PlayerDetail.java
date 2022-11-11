@@ -10,13 +10,13 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class PlayerDetail implements Writable {
-    private Text playerName;
-    private IntWritable score;
-    private Text opposition;
-    private LongWritable timestamps;
-    private IntWritable ballsTaken;
-    private IntWritable fours;
-    private IntWritable six;
+    private Text playerName = new Text();
+    private IntWritable score = new IntWritable();
+    private IntWritable opposition = new IntWritable();
+    private LongWritable timestamps = new LongWritable();
+    private IntWritable ballsTaken = new IntWritable();
+    private IntWritable fours = new IntWritable();
+    private IntWritable six = new IntWritable();
 
     public void readFields(DataInput dataInput) throws IOException {
         playerName.readFields(dataInput);
@@ -35,7 +35,7 @@ public class PlayerDetail implements Writable {
         timestamps.write(dataOutput);
         ballsTaken.write(dataOutput);
         fours.write(dataOutput);
-        playerName.write(dataOutput);
+        six.write(dataOutput);
     }
 
     public Text getPlayerName() {
@@ -54,11 +54,11 @@ public class PlayerDetail implements Writable {
         this.score = score;
     }
 
-    public Text getOpposition() {
+    public IntWritable getOpposition() {
         return opposition;
     }
 
-    public void setOpposition(Text opposition) {
+    public void setOpposition(IntWritable opposition) {
         this.opposition = opposition;
     }
 

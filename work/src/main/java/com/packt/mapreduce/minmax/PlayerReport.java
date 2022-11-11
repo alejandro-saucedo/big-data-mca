@@ -11,24 +11,24 @@ import java.io.IOException;
 public class PlayerReport implements Writable {
     private Text playerName;
     private IntWritable maxScore;
-    private Text maxScoreopposition;
+    private IntWritable maxScoreOpposition;
     private IntWritable minScore;
-    private Text minScoreopposition;
+    private IntWritable minScoreOpposition;
 
     public void write(DataOutput dataOutput) throws IOException {
         playerName.write(dataOutput);
         maxScore.write(dataOutput);
-        maxScoreopposition.write(dataOutput);
+        maxScoreOpposition.write(dataOutput);
         minScore.write(dataOutput);
-        minScoreopposition.write(dataOutput);
+        minScoreOpposition.write(dataOutput);
     }
 
     public void readFields(DataInput dataInput) throws IOException {
         playerName.readFields(dataInput);
         maxScore.readFields(dataInput);
-        maxScoreopposition.readFields(dataInput);
+        maxScoreOpposition.readFields(dataInput);
         minScore.readFields(dataInput);
-        minScoreopposition.readFields(dataInput);
+        minScoreOpposition.readFields(dataInput);
     }
 
     public Text getPlayerName() {
@@ -47,12 +47,12 @@ public class PlayerReport implements Writable {
         this.maxScore = maxScore;
     }
 
-    public Text getMaxScoreopposition() {
-        return maxScoreopposition;
+    public IntWritable getMaxScoreOpposition() {
+        return maxScoreOpposition;
     }
 
-    public void setMaxScoreopposition(Text maxScoreopposition) {
-        this.maxScoreopposition = maxScoreopposition;
+    public void setMaxScoreOpposition(IntWritable maxScoreOpposition) {
+        this.maxScoreOpposition = maxScoreOpposition;
     }
 
     public IntWritable getMinScore() {
@@ -63,20 +63,20 @@ public class PlayerReport implements Writable {
         this.minScore = minScore;
     }
 
-    public Text getMinScoreopposition() {
-        return minScoreopposition;
+    public IntWritable getMinScoreOpposition() {
+        return minScoreOpposition;
     }
 
-    public void setMinScoreopposition(Text minScoreopposition) {
-        this.minScoreopposition = minScoreopposition;
+    public void setMinScoreOpposition(IntWritable minScoreOpposition) {
+        this.minScoreOpposition = minScoreOpposition;
     }
 
     @Override
     public String toString() {
         return playerName +
                 "\t" + maxScore +
-                "\t" + maxScoreopposition +
+                "\t" + maxScoreOpposition +
                 "\t" + minScore +
-                "\t" + minScoreopposition;
+                "\t" + minScoreOpposition;
     }
 }
