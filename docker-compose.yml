@@ -98,6 +98,20 @@ services:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     volumes:
       - ./work:/work
+
+  spark-worker-2:
+    image: bd_mca/spark-worker:3.0.0-hadoop3.2
+    container_name: spark-worker-2
+    depends_on:
+      - spark-master
+    ports:
+      - "8082:8081"
+      - "4043:4040"
+    environment:
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    volumes:
+      - ./work:/work
   
 volumes:
   hadoop_namenode:
