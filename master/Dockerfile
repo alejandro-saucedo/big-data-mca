@@ -17,7 +17,7 @@ RUN apk add --update --no-cache gcc python3-dev python3 linux-headers musl-dev l
     ln -sf python3 /usr/bin/python && \
 	python3 -m ensurepip && \
 	pip3 install --no-cache --upgrade pip setuptools && \
-	pip3 install --no-cache notebook
+	pip3 install --no-cache notebook kafka-python
 
 # setup python3
 ENV PYSPARK_PYTHON=python3 
