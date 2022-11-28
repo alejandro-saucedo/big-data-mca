@@ -1,4 +1,4 @@
-# run as: /spark//bin/spark-submit --deploy-mode client --driver-memory 2G --executor-memory 2G --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 insert_traffic_topic.py
+# run as: unset PYSPARK_DRIVER_PYTHON && /spark//bin/spark-submit --deploy-mode client --driver-memory 2G --executor-memory 2G --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 insert_traffic_topic.py
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, TimestampType, LongType
