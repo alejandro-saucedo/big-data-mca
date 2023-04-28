@@ -52,7 +52,7 @@
 Once all the containers are running, connect to any of the spark nodes. For example, connect to spark-master container:
 
 ```
-docker exect -it spark-master bash
+docker exec -it spark-master bash
 ```
 
 Once in the container, launch Jupyter Notebook by running this:
