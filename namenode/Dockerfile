@@ -14,6 +14,6 @@ RUN chmod a+x /run.sh
 EXPOSE 9870
 
 RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list" \
-  && RUN apt update -y && apt install -y vim
+  && apt update -y && apt install -y vim
 
 CMD ["/run.sh"]
